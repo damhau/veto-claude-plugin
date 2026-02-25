@@ -8,7 +8,6 @@ When installed, this plugin intercepts all Claude Code tool calls (Bash, Write, 
 
 **Hooks:**
 - `PermissionRequest` — evaluates every tool call against the Veto server
-- `SessionStart` / `SessionEnd` — tracks session lifecycle for audit
 
 **Commands:**
 - `/veto:setup` — configure server URL, API key, and fail policy
