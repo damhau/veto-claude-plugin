@@ -1,0 +1,12 @@
+{
+  "name": "veto",
+  "version": "0.1.0",
+  "description": "Centralized permission gateway for Claude Code — evaluate tool calls against server-side rules and AI scoring",
+  "author": {
+    "name": "Veto",
+    "url": "https://github.com/damhau/veto"
+  },
+  "repository": "https://github.com/damhau/veto-claude-plugin",
+  "license": "MIT",
+  "keywords": ["security", "permissions", "governance", "hooks", "guardrails", "policy"]
+}

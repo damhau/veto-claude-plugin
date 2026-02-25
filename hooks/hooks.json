@@ -1,0 +1,39 @@
+{
+  "description": "Veto permission gateway hooks",
+  "hooks": {
+    "PermissionRequest": [
+      {
+        "matcher": "^(?!ExitPlanMode$|AskUserQuestion$).*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/scripts/evaluate.py",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/scripts/session.py start",
+            "async": true
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/scripts/session.py end",
+            "async": true
+          }
+        ]
+      }
+    ]
+  }
+}

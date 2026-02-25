@@ -1,0 +1,15 @@
+{
+  "name": "veto-marketplace",
+  "owner": {
+    "name": "Veto",
+    "url": "https://github.com/damhau/veto"
+  },
+  "plugins": [
+    {
+      "name": "veto",
+      "source": ".",
+      "description": "Centralized permission gateway for Claude Code — evaluate tool calls against server-side rules and AI scoring",
+      "version": "0.1.0"
+    }
+  ]
+}
