@@ -7,7 +7,7 @@
   "plugins": [
     {
       "name": "veto",
-      "source": ".",
+      "source": "./",
       "description": "Centralized permission gateway for Claude Code — evaluate tool calls against server-side rules and AI scoring",
       "version": "0.1.0"
     }
