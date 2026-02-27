@@ -67,7 +67,7 @@ def main():
         log("missing config -> fail open")
         sys.exit(0)
 
-    server_url = config.get("server_url", "http://localhost:8000")
+    server_url = config.get("server_url", "https://api.vetoapp.io")
     api_key = config.get("api_key", "")
     fail_policy = config.get("fail_policy", "open")
     timeout = config.get("timeout", 25)

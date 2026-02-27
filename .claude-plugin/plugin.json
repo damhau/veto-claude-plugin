@@ -1,6 +1,6 @@
 {
   "name": "veto",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Centralized permission gateway for Claude Code — evaluate tool calls against server-side rules and AI scoring",
   "author": {
     "name": "Veto",

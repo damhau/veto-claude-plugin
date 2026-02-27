@@ -10,13 +10,12 @@ When installed, this plugin intercepts all Claude Code tool calls (Bash, Write, 
 - `PermissionRequest` — evaluates every tool call against the Veto server
 
 **Commands:**
-- `/veto:setup` — configure server URL, API key, and fail policy
+- `/veto:setup` — configure API key and fail policy
 - `/veto:status` — check server connectivity and active rule count
-- `/veto:rules` — list all whitelist/blacklist rules
 
 ## Prerequisites
 
-- A running [Veto server](https://github.com/damhau/veto) (self-hosted or cloud)
+- A [Veto](https://github.com/damhau/veto) account
 - An API key from the Veto dashboard (Settings > API Keys)
 - Python 3.8+ (uses only stdlib — no pip dependencies)
 
@@ -44,9 +43,8 @@ After installing, run the setup command:
 ```
 
 This will prompt you for:
-1. **Server URL** — your Veto server address (default: `http://localhost:8000`)
-2. **API key** — from the Veto dashboard
-3. **Fail policy** — `open` (allow on error) or `closed` (deny on error)
+1. **API key** — from the Veto dashboard
+2. **Fail policy** — `open` (allow on error) or `closed` (deny on error)
 
 Configuration is saved to `~/.veto/config.json`.
 
@@ -91,7 +89,7 @@ All hook activity is logged to `~/.veto/hook.log` for debugging.
 
 ```json
 {
-  "server_url": "http://localhost:8000",
+  "server_url": "https://api.vetoapp.io",
   "api_key": "veto_...",
   "fail_policy": "open",
   "timeout": 25
@@ -100,7 +98,7 @@ All hook activity is logged to `~/.veto/hook.log` for debugging.
 
 | Field | Default | Description |
 |-------|---------|-------------|
-| `server_url` | `http://localhost:8000` | Veto server URL |
+| `server_url` | `https://api.vetoapp.io` | Veto server URL |
 | `api_key` | — | API key from the dashboard |
 | `fail_policy` | `open` | `open` or `closed` |
 | `timeout` | `25` | Request timeout in seconds |
