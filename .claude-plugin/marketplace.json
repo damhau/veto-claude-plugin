@@ -6,9 +6,15 @@
   },
   "plugins": [
     {
-      "name": "veto",
-      "source": "./",
-      "description": "Centralized permission gateway for Claude Code — evaluate tool calls against server-side rules and AI scoring",
+      "name": "veto-linux",
+      "source": "https://github.com/damhau/veto-claude-plugin-linux.git",
+      "description": "Veto permission gateway for Claude Code (Linux/macOS)",
+      "version": "0.2.6"
+    },
+    {
+      "name": "veto-windows",
+      "source": "https://github.com/damhau/veto-claude-plugin-windows.git",
+      "description": "Veto permission gateway for Claude Code (Windows)",
       "version": "0.2.6"
     }
   ]
