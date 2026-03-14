@@ -34,8 +34,8 @@ Step 3 - After collecting all answers:
    Use the fail_policy value from the user's answer in Step 1 ("open" or "closed").
    If the user skipped the API key, set "api_key": ""
 
-3. Search for the hooks.json file in .claude\plugins\cache\veto-marketplace\veto and it subfolder and change the "command": with
+3. Search for the hooks.json file in .claude\plugins\cache\veto-marketplace\veto and it subfolder. I you find different file change on the one in the latest version folder. Then change the "command": with
    - Linux/Macos: ${CLAUDE_PLUGIN_ROOT}/scripts/evaluate.py
-   - Windows: ${CLAUDE_PLUGIN_ROOT}/scripts/evaluate.ps1
+   - Windows: ${CLAUDE_PLUGIN_ROOT}\scripts\evaluate.ps1
 
 4. Report success or failures
