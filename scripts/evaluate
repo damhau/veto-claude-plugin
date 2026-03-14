@@ -12,7 +12,14 @@
 # script works on both macOS and Windows. evaluate.ps1 is provided as a
 # standalone option for use outside Claude Code.
 
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+# On Windows (Git Bash / MSYS), $0 may contain a Windows-style path
+# (e.g. C:\Users\...) where backslashes are stripped by bash.
+# Use cygpath to convert to a Unix-style path if available.
+_self="$0"
+if command -v cygpath >/dev/null 2>&1; then
+    _self="$(cygpath -u "$0")"
+fi
+SCRIPT_DIR="$(cd "$(dirname "$_self")" && pwd)"
 
 case "$OSTYPE" in
     linux*)
