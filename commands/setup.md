@@ -11,7 +11,7 @@ Step 0 - OS Detection:
 2. If the result contains "Darwin" → macOS
 3. If the result contains "Linux" → Linux
 4. If the command fails or returns something else → ask the user via AskUserQuestion with options: "Windows", "Linux", "macOS"
-Remember the detected OS for later steps.
+Remember the detected OS for ALL subsequent steps. On Windows, ALL Bash commands MUST use PowerShell syntax (prefix with `powershell -Command "..."`). NEVER use Unix commands (mkdir -p, curl, cat) on Windows.
 
 Step 1 - Use AskUserQuestion to ask for the fail policy:
 
@@ -25,41 +25,20 @@ Say: "Please paste your Veto API key (find it in the Veto dashboard under Settin
 Wait for the user to reply with their key or "skip".
 
 Step 3 - After collecting all answers:
-1. Create the directory ~/.veto/ if it doesn't exist
-2. Write the config to ~/.veto/config.json: {"api_key": "...", "fail_policy": "...", "timeout": 25}
+
+1. Create the config directory if it doesn't exist:
+   - Linux/macOS: `mkdir -p ~/.veto`
+   - Windows: `powershell -Command "New-Item -ItemType Directory -Force -Path (Join-Path $env:USERPROFILE '.veto')"`
+
+2. Write the config file. IMPORTANT: use ABSOLUTE paths, not `~`:
+   - Linux/macOS: use the Write tool with path `$HOME/.veto/config.json` (resolve $HOME first with `echo $HOME`)
+   - Windows: use the Write tool with path `$USERPROFILE/.veto/config.json` (resolve first with `powershell -Command "echo $env:USERPROFILE"`)
+   Content: {"api_key": "...", "fail_policy": "...", "timeout": 25}
    Use the fail_policy value from the user's answer in Step 1 ("open" or "closed").
    If the user skipped the API key, set "api_key": ""
+
 3. Test the connection:
-   - Linux/macOS: run `curl -s -o /dev/null -w "%{http_code}" https://api.vetoapp.io/health`
-   - Windows: run `powershell -Command "(Invoke-WebRequest -Uri 'https://api.vetoapp.io/health' -UseBasicParsing).StatusCode"`
+   - Linux/macOS: `curl -s -o /dev/null -w "%{http_code}" https://api.vetoapp.io/health`
+   - Windows: `powershell -Command "(Invoke-WebRequest -Uri 'https://api.vetoapp.io/health' -UseBasicParsing).StatusCode"`
+
 4. Report success or failure
-
-Step 4 - Configure hooks for the detected OS:
-Write the correct hooks.json to `~/.claude/plugins/marketplaces/veto-marketplace/hooks/hooks.json` based on the detected OS:
-
-- Linux: command = `${HOME}/.claude/plugins/marketplaces/veto-marketplace/scripts/evaluate.py`
-- macOS: command = `bash ${HOME}/.claude/plugins/marketplaces/veto-marketplace/scripts/evaluate.sh`
-- Windows: command = `powershell -ExecutionPolicy Bypass -File "${HOME}/.claude/plugins/marketplaces/veto-marketplace/scripts/evaluate.ps1"`
-
-The hooks.json format is:
-```json
-{
-  "description": "Veto permission gateway hooks",
-  "hooks": {
-    "PermissionRequest": [
-      {
-        "matcher": "^(?!ExitPlanMode$|AskUserQuestion$).*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "<OS-specific command from above>",
-            "timeout": 30
-          }
-        ]
-      }
-    ]
-  }
-}
-```
-
-Report the detected OS and confirm that hooks have been configured.
