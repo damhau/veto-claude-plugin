@@ -4,26 +4,23 @@
 #
 # Detects the current OS and dispatches to the appropriate platform-specific
 # evaluate script:
-#   - Linux:   evaluate.py   (Python 3)
-#   - macOS:   evaluate.sh   (bash + curl)
-#   - Windows: evaluate.ps1  (PowerShell)
+#   - Linux:   evaluate.py  (Python 3)
+#   - macOS:   evaluate.sh  (bash + curl)
+#   - Windows: evaluate.sh  (bash + curl via Git Bash)
 #
-# On Windows, Claude Code executes hook commands through Git Bash,
-# so this launcher script can always run as bash.
+# Note: Claude Code always uses bash (Git Bash on Windows), so the bash+curl
+# script works on both macOS and Windows. evaluate.ps1 is provided as a
+# standalone option for use outside Claude Code.
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 case "$OSTYPE" in
-    msys*|cygwin*|win32*)
-        # Windows (Git Bash) -> PowerShell
-        powershell.exe -ExecutionPolicy Bypass -NoProfile -File "$SCRIPT_DIR/evaluate.ps1"
-        ;;
-    darwin*)
-        # macOS -> bash + curl
-        bash "$SCRIPT_DIR/evaluate.sh"
+    linux*)
+        # Linux -> Python
+        python3 "$SCRIPT_DIR/evaluate.py"
         ;;
     *)
-        # Linux and others -> Python
-        python3 "$SCRIPT_DIR/evaluate.py"
+        # macOS, Windows (Git Bash), and others -> bash + curl
+        bash "$SCRIPT_DIR/evaluate.sh"
         ;;
 esac

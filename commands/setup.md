@@ -18,8 +18,14 @@ Say: "Please paste your Veto API key (find it in the Veto dashboard under Settin
 Wait for the user to reply with their key or "skip".
 
 Step 3 - After collecting all answers:
-1. Create the directory ~/.veto/ if it doesn't exist
-2. Write the config to ~/.veto/config.json: {"api_key": "...", "fail_policy": "...", "timeout": 25}
+
+IMPORTANT: Claude Code always uses bash, even on Windows. Use only bash-compatible commands (mkdir, cat, curl). Never use PowerShell cmdlets like New-Item, Set-Content, or Invoke-WebRequest.
+
+1. Create the directory: mkdir -p ~/.veto
+2. Write the config file using bash:
+   cat > ~/.veto/config.json << 'VETOEOF'
+   {"api_key": "<KEY>", "fail_policy": "<POLICY>", "timeout": 25}
+   VETOEOF
    Use the fail_policy value from the user's answer in Step 1 ("open" or "closed").
    If the user skipped the API key, set "api_key": ""
 3. Test the connection by running: curl -s -o /dev/null -w "%{http_code}" https://api.vetoapp.io/health
