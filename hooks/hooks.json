@@ -7,7 +7,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "${HOME}/.claude/plugins/marketplaces/veto-marketplace/scripts/evaluate.py",
+            "command": "${HOME}/.claude/plugins/marketplaces/veto-marketplace/scripts/evaluate",
             "timeout": 30
           }
         ]

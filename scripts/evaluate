@@ -1,0 +1,29 @@
+#!/bin/bash
+#
+# Veto cross-platform launcher.
+#
+# Detects the current OS and dispatches to the appropriate platform-specific
+# evaluate script:
+#   - Linux:   evaluate.py   (Python 3)
+#   - macOS:   evaluate.sh   (bash + curl)
+#   - Windows: evaluate.ps1  (PowerShell)
+#
+# On Windows, Claude Code executes hook commands through Git Bash,
+# so this launcher script can always run as bash.
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+case "$OSTYPE" in
+    msys*|cygwin*|win32*)
+        # Windows (Git Bash) -> PowerShell
+        powershell.exe -ExecutionPolicy Bypass -NoProfile -File "$SCRIPT_DIR/evaluate.ps1"
+        ;;
+    darwin*)
+        # macOS -> bash + curl
+        bash "$SCRIPT_DIR/evaluate.sh"
+        ;;
+    *)
+        # Linux and others -> Python
+        python3 "$SCRIPT_DIR/evaluate.py"
+        ;;
+esac
