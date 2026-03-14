@@ -8,8 +8,8 @@
     {
       "name": "veto-linux",
       "source": {
-        "source": "github",
-        "repo": "damhau/veto-claude-plugin-linux"
+        "source": "url",
+        "url": "https://github.com/damhau/veto-claude-plugin-linux.git"
       },
       "description": "Veto permission gateway for Claude Code (Linux/macOS)",
       "version": "0.3.0"
@@ -17,8 +17,8 @@
     {
       "name": "veto-windows",
       "source": {
-        "source": "github",
-        "repo": "damhau/veto-claude-plugin-windows"
+        "source": "url",
+        "url": "https://github.com/damhau/veto-claude-plugin-windows.git"
       },
       "description": "Veto permission gateway for Claude Code (Windows)",
       "version": "0.3.0"
