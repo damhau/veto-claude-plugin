@@ -26,7 +26,7 @@ Wait for the user to reply with their key or "skip".
 Step 3 - After collecting all answers:
 
 1. Create the config directory if it doesn't exist:
-   - Linux/macOS: `mkdir -p ~/.veto`
+   - Linux/Macos: `mkdir -p ~/.veto`
    - Windows: `mkdir $HOME\.veto -Force`
 
 2. Write the config file using the Write tool to `~/.veto/config.json` (for linux/macos) or `$HOME\.veto\config.json` (windows) :
@@ -34,4 +34,8 @@ Step 3 - After collecting all answers:
    Use the fail_policy value from the user's answer in Step 1 ("open" or "closed").
    If the user skipped the API key, set "api_key": ""
 
-4. Report success or failure
+3. Update the hooks.json file and change the "command": with
+   - Linux/Macos: ${CLAUDE_PLUGIN_ROOT}/scripts/evaluate.py
+   - Windows: ${CLAUDE_PLUGIN_ROOT}/scripts/evaluate.ps1
+
+4. Report success or failures
