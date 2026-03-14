@@ -13,6 +13,7 @@ import sys
 import urllib.request
 import urllib.error
 from datetime import datetime, timezone
+import ssl
 
 CONFIG_PATH = os.path.expanduser("~/.veto/config.json")
 LOG_PATH = os.path.expanduser("~/.veto/hook.log")
@@ -49,6 +50,26 @@ def send_decision(decision):
     )
 
 
+def build_ssl_context(config):
+    verify_ssl = config.get("verify_ssl", True)
+    ca_file = config.get("ca_file", None)
+
+    if not verify_ssl:
+        log("SSL verification disabled")
+        return ssl._create_unverified_context()
+
+    try:
+        if ca_file:
+            log(f"SSL verification enabled with custom CA file: {ca_file}")
+            return ssl.create_default_context(cafile=ca_file)
+
+        log("SSL verification enabled with system CA store")
+        return ssl.create_default_context()
+    except Exception as e:
+        log(f"failed to build SSL context: {e}")
+        return None
+
+
 def main():
     log("start")
 
@@ -72,6 +93,16 @@ def main():
     fail_policy = config.get("fail_policy", "open")
     timeout = config.get("timeout", 25)
 
+    ssl_context = build_ssl_context(config)
+    if ssl_context is None:
+        log("invalid SSL configuration")
+
+        if fail_policy == "closed":
+            log("fail_policy=closed -> deny")
+            send_decision("deny")
+
+        sys.exit(0)
+
     payload_dict = {
         "session_id": hook_input.get("session_id", "unknown"),
         "tool_name": hook_input.get("tool_name", ""),
@@ -94,7 +125,7 @@ def main():
             method="POST",
         )
 
-        with urllib.request.urlopen(req, timeout=timeout) as resp:
+        with urllib.request.urlopen(req, timeout=timeout, context=ssl_context) as resp:
             result = json.loads(resp.read())
             log(f"response: {result}")
 
